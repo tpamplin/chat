@@ -28,7 +28,34 @@ cd chat
 
 ### 2. Install All Dependencies
 
+run the following commands in terminal while in your project directory
+
 ```bash
 npm install
 npm install -g expo-cli
 ```
+
+### 3. Run App
+
+run the following command in terminal in your project directory.
+
+```bash
+npx expo start
+```
+
+Download the Expo Go app on your android or ios device:
+
+Android:
+https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en_US&pli=1
+
+iPhone:
+https://apps.apple.com/us/app/expo-go/id982107779
+
+make sure your device is on the same Wi-Fi network then open the app or scan the qr code in the terminal, the app should open on your phone.
+
+## Project Dependencies
+
+-   Node.js v23.6.0
+-   expo v6.3.12
+-   react-native v0.76.6
+-   react v18.3.1
