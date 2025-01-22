@@ -12,7 +12,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 // Create navigator Stack
 const Stack = createNativeStackNavigator();
 
-// Declare app
+// Declare app -- setup navigation screens.
 const App = () => {
     return (
         <NavigationContainer style={styles.container}>
