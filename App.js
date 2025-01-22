@@ -1,6 +1,5 @@
 // Import React Native components
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet } from "react-native";
 
 // Import Screens from components
 import Start from "./components/Start.js";
@@ -16,7 +15,7 @@ const Stack = createNativeStackNavigator();
 // Declare app
 const App = () => {
     return (
-        <NavigationContainer>
+        <NavigationContainer style={styles.container}>
             <Stack.Navigator initialRouteName="Start">
                 <Stack.Screen name="Start" component={Start} />
                 <Stack.Screen name="Chat" component={Chat} />
