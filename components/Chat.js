@@ -17,7 +17,7 @@ const Chat = ({ route, navigation }) => {
 
     // Return View with Chat.
     return (
-        <View style={(styles.container, { backgroundColor })}>
+        <View style={[styles.container, { backgroundColor }]}>
             <Text style={{ color: chatColor }}>Chat!</Text>
         </View>
     );
