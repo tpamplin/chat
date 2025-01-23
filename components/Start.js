@@ -1,6 +1,16 @@
 // Import react components
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Button, TextInput, ImageBackground, TouchableOpacity } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Text,
+    Button,
+    TextInput,
+    ImageBackground,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
+} from "react-native";
 
 // Define default view -- this view will be shown when the app is loaded.
 const Start = ({ navigation }) => {
@@ -44,6 +54,7 @@ const Start = ({ navigation }) => {
                     title="Enter Chat"
                     onPress={() => navigation.navigate("Chat", { name: name, backgroundColor: backgroundColor })}
                 />
+                {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : null}
             </View>
         </ImageBackground>
     );
