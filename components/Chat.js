@@ -3,16 +3,12 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 
 // Import Gifted Chat
-import { GiftedChat } from "react-native-gifted-chat";
+import { Bubble, GiftedChat } from "react-native-gifted-chat";
 
 // Create Chat screen component
 const Chat = ({ route, navigation }) => {
     // Get username and background color from params from start screen
     const { name, backgroundColor } = route.params;
-
-    //set text color to white with dark background or black with light background
-    let chatColor;
-    backgroundColor === "#090C08" || backgroundColor === "#474056" ? (chatColor = "white") : (chatColor = "black");
 
     // Create messages array state
     const [messages, setMessages] = useState([]);
@@ -41,14 +37,37 @@ const Chat = ({ route, navigation }) => {
                     avatar: "https://placeimg.com/140/140/any",
                 },
             },
+            {
+                _id: 2,
+                text: "This is a system message",
+                createdAt: new Date(),
+                system: true,
+            },
         ]);
     }, []);
 
+    const renderBubble = (props) => {
+        return (
+            <Bubble
+                {...props}
+                wrapperStyle={{
+                    right: {
+                        backgroundColor: "#000",
+                    },
+                    left: {
+                        backgroundColor: "#fff",
+                    },
+                }}
+            />
+        );
+    };
+
     // Return View with Chat.
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: backgroundColor }]}>
             <GiftedChat
                 messages={messages}
+                renderBubble={renderBubble}
                 onSend={(messages) => onSend(messages)}
                 user={{
                     _id: 1,
