@@ -1,6 +1,6 @@
 // Import react components
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 
 // Import Gifted Chat
 import { GiftedChat } from "react-native-gifted-chat";
@@ -54,6 +54,7 @@ const Chat = ({ route, navigation }) => {
                     _id: 1,
                 }}
             />
+            {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}
         </View>
     );
 };
