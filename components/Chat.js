@@ -1,21 +1,22 @@
 // Import react components
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { collection, addDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 
 // Import Gifted Chat
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 
 // Create Chat screen component
-const Chat = ({ route, navigation }) => {
-    // Get username and background color from params from start screen
-    const { name, backgroundColor } = route.params;
+const Chat = ({ route, navigation, db }) => {
+    // Get username, user ID and background color from params from start screen
+    const { name, backgroundColor, userID } = route.params;
 
     // Create messages array state
     const [messages, setMessages] = useState([]);
 
     // Handle user pressing send button.
     const onSend = (newMessages) => {
-        setMessages((previousMessages) => GiftedChat.append(previousMessages, newMessages));
+        addDoc(collection(db, "messages"), newMessages[0]);
     };
 
     //Initialize state
@@ -26,24 +27,18 @@ const Chat = ({ route, navigation }) => {
 
     // Set Default test messages
     useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: "Hello developer",
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: "React Native",
-                    avatar: "https://placeimg.com/140/140/any",
-                },
-            },
-            {
-                _id: 2,
-                text: "This is a system message",
-                createdAt: new Date(),
-                system: true,
-            },
-        ]);
+        const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+        const unsubMessages = onSnapshot(q, (documentsSnapshot) => {
+            let newMessages = [];
+            documentsSnapshot.forEach((doc) => {
+                newMessages.push({ id: doc.id, ...doc.data(), createdAt: new Date(doc.data().createdAt.toMillis()) });
+            });
+            setMessages(newMessages);
+        });
+
+        return () => {
+            if (unsubMessages) unsubMessages();
+        };
     }, []);
 
     const renderBubble = (props) => {
@@ -70,7 +65,8 @@ const Chat = ({ route, navigation }) => {
                 renderBubble={renderBubble}
                 onSend={(messages) => onSend(messages)}
                 user={{
-                    _id: 1,
+                    _id: userID,
+                    name: name,
                 }}
             />
             {Platform.OS === "android" ? <KeyboardAvoidingView behavior="height" /> : null}

@@ -10,25 +10,32 @@ import {
     TouchableOpacity,
     KeyboardAvoidingView,
     Platform,
+    Alert,
 } from "react-native";
 
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 // Define default view -- this view will be shown when the app is loaded.
 const Start = ({ navigation }) => {
-    const auth = getAuth();
-
-    const signInUser = () => {
-        signInAnonymously(auth).then((result) => {
-            navigation.navigate("Chat", { userID: result.user.uid, name: name, backgroundColor: backgroundColor });
-        });
-    };
     // Define states for username and background color
     const [name, setName] = useState("");
     const [backgroundColor, setBackgroundColor] = useState("");
 
     // An array containing possible background colors
     const colors = ["#090C08", "#474056", "#8A95A5", "#B9C6AE"];
+
+    const auth = getAuth();
+
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then((result) => {
+                Alert.alert("User signed in successfully.");
+                navigation.navigate("Chat", { userID: result.user.uid, name: name, backgroundColor: backgroundColor });
+            })
+            .catch((error) => {
+                Alert.alert("Unable to sign in, ", error.message);
+            });
+    };
 
     // Change page title to "Chat App" instead of default "Start"
     useEffect(() => {
