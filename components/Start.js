@@ -12,8 +12,17 @@ import {
     Platform,
 } from "react-native";
 
+import { getAuth, signInAnonymously } from "firebase/auth";
+
 // Define default view -- this view will be shown when the app is loaded.
 const Start = ({ navigation }) => {
+    const auth = getAuth();
+
+    const signInUser = () => {
+        signInAnonymously(auth).then((result) => {
+            navigation.navigate("Chat", { userID: result.user.uid, name: name, backgroundColor: backgroundColor });
+        });
+    };
     // Define states for username and background color
     const [name, setName] = useState("");
     const [backgroundColor, setBackgroundColor] = useState("");
@@ -50,10 +59,7 @@ const Start = ({ navigation }) => {
                     ))}
                 </View>
                 {/* This button will navigate to the chat screen. while sending the username and preferred background color to the chat screen so it can display them. */}
-                <Button
-                    title="Enter Chat"
-                    onPress={() => navigation.navigate("Chat", { name: name, backgroundColor: backgroundColor })}
-                />
+                <Button title="Enter Chat" onPress={signInUser} />
                 {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : null}
             </View>
         </ImageBackground>
