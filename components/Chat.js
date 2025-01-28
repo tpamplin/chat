@@ -11,6 +11,9 @@ import { Bubble, InputToolbar, GiftedChat } from "react-native-gifted-chat";
 //Import AsyncStorage so messages can be stored and viewed offline
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Import custom actions button
+import CustomActions from "./CustomActions";
+
 // Create Chat screen component
 const Chat = ({ route, navigation, db, isConnected }) => {
     // Get username, user ID and background color from params from start screen
@@ -57,7 +60,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
             unsubMessages = onSnapshot(q, (documentsSnapshot) => {
                 let newMessages = [];
                 documentsSnapshot.forEach((doc) => {
-                    // Adds new messages to the newMessages array in the order that they were created.
+                    // Adds all messages to the newMessages array in the order that they were created.
                     newMessages.push({
                         id: doc.id,
                         ...doc.data(),
@@ -100,6 +103,10 @@ const Chat = ({ route, navigation, db, isConnected }) => {
             return <InputToolbar {...props} />;
         } else return null;
     };
+
+    const renderCustomActions = (props) => {
+        return <CustomActions {...props} />;
+    };
     // Return View with Chat.
     return (
         <View style={[styles.container, { backgroundColor: backgroundColor }]}>
@@ -107,6 +114,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
                 messages={messages}
                 renderBubble={renderBubble}
                 renderInputToolbar={renderInputToolbar}
+                renderActions={renderCustomActions}
                 onSend={(messages) => onSend(messages)}
                 user={{
                     _id: userID,
