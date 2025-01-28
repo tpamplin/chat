@@ -10,11 +10,16 @@ import * as ImagePicker from "expo-image-picker";
 const CustomActions = () => {
     const onActionPress = () => {
         const options = ["Pick Photo", "Take Photo", "Send Location", "Cancel"];
-        options.map();
 
         const cancelButtonIndex = options.length - 1;
     };
-    return <TouchableOpacity style={styles.container} onPress={onActionPress}></TouchableOpacity>;
+    return (
+        <TouchableOpacity style={styles.container} onPress={onActionPress}>
+            <View style={[styles.wrapper, wrapperStyle]}>
+                <Text style={[styles.iconText, iconTextStyle]}>+</Text>
+            </View>
+        </TouchableOpacity>
+    );
 };
 
 const styles = StyleSheet.create({
